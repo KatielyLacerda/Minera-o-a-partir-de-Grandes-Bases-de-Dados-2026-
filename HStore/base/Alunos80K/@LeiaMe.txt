@@ -1,0 +1,50 @@
+--===============================================================================================================--
+-- Caetano Traina Júnior -- Agosto de 2026 -------------------------------------------------------------------------
+--===============================================================================================================--
+
+Estes arquivos criam as tabelas de uma base de dados equivalente à base Alunos usada como exemplo nas aulas de Bases de Dados,
+mas com uma carga de 80.000 Alunos.
+
+--=======================================================================================================================--
+--==    Roda Nomes-Carga.sql                -- Usa Nomes e Sobrenomes.csv --==--  Cria as tabelas de Nomes próprios e Sobrenomes
+--==    Roda SobreNomes-Carga.sql           -- Usa Cidades.csv            --==--  Cria a tabela de Sobrenomes
+--==    Roda CreateInsertTab-Cidades.sql                                  --==--  Cria a tabela de Cidades do Brasil
+--==    Roda USPAnuario-Q1.04.sql           --  Usa USPAnuario-Q1.04.csv  --==--  Gera UnidadeUSP
+--==    Roda USPAnuario-T3.02.sql           --  Usa USPAnuario-T3.02.csv  --==--  Gera DeptoUSP
+--==    Roda Cria-Alunos.sql                -->  Só até o bloco indicado: --==--  Cria a tabela Aluno80K
+--==    Roda Cria-Professor.sql             -->  Só até o bloco indicado: --==--  Cria a tabela Professor80K
+--==    Roda Cria-Discip.sql                -->  Só até o bloco indicado: --==--  Cria a tabela Discip80K
+--==    Roda Cria-MatrTurma.sql             -->  Só até o bloco indicado: --==--  Cria as tabelas Matricula e Ministra
+--==    Roda Cria-MatrTurmaAnoSemestre.sql  -->  Só até o bloco indicado: --==--  Cria a tabela MatriculaAS
+--===============================================================================================================--
+
+psql.exe - 'localhost' -p='5432' - d'Alunos80' U='postgres' password='minha senha'"
+"C:\Program Files\PostgreSQL\14\bin\createdb" "host='localhost' port='5432' dbname='Alunos80' user='postgres' password='minha senha'"
+
+"C:\Program Files\PostgreSQL\14\bin\pg_dump" "host='localhost' port='5432' dbname='Alunos80' user='postgres' password='minha senha'" > C:\lixo\DUmp_Alunos80
+"C:\Program Files\PostgreSQL\14\bin\pg_dump" "host='localhost' port='5432' dbname='Alunos80' user='postgres' password='minha senha'" < C:\lixo\DUmp_Alunos80
+
+-- --psql.exe "host='localhost' port='5432' dbname='Alunos80' user='postgres' password='minha senha'"
+-- --\i 'E://SolE//Databases//Dados//Alunos80K//NomesProprios-Carga.sql'...
+-- --
+--+ Para ter resultados repetitivos, é importante limpar as páginas de trabalho que podem ter 'sobrado' dos processos de carga dos dados. Para isso, execute individualmente cada um dos comandos no arquivo Vacuum.txt (não pode rodar como script, tem que ser comandos individuais).
+
+--==================================================================================================
+-- Restrições de Integridade  ======================================================================
+--==  As Tabelas estão criadas sem nenhuma restrição de integridade.                            ====
+--==  Os índices para criar as restrições de chave primária e segundárias são:                  ====
+--==================================================================================================
+CREATE UNIQUE INDEX Alunos_PK ON Alunos(NUSP);
+
+CREATE UNIQUE INDEX Prof_PK ON Professor(NNFuncional);
+
+CREATE UNIQUE INDEX Discip_PK ON Discip(Sigla);
+
+CREATE UNIQUE INDEX Turma_PK ON Turma(Codigo);
+CREATE UNIQUE INDEX Turma_UK ON Turma(Sigla, Numero);
+
+CREATE INDEX Matric_PK ON Matricula(CodigoTurma, NUSP);
+
+
+--==================================================================================================
+
